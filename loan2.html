@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <title>Loan Calculator</title>
+    <style>    body{
+        background-image: url(web2.jpg);
+    }
+    div{
+        border-radius:20px;
+        width: 40%;
+    }
+    </style>
+
+</head>
+<body>
+    <div class="container bg-warning text-center mt-5" style="width: 40%;">
+    <h1>Loan Calculator</h1>
+    <form>
+        <label for="amount">Loan Amount:</label><br><br>
+        <input type="number" id="amount" onchange="calculateLoan()"><br><br>
+        <label for="rate">Interest Rate:</label><br><br>
+        <input type="number" id="rate" onchange="calculateLoan()"><br><br>
+        <label for="years">Loan Term (years):</label><br><br>
+        <select id="years" onchange="calculateLoan()">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br><br>
+        <input type="radio" id="simple" name="interest" value="simple" onchange="calculateLoan()" checked>
+        <label for="simple">Simple Interest</label><br>
+        <input type="radio" id="compound" name="interest" value="compound" onchange="calculateLoan()">
+        <label for="compound">Compound Interest</label><br><br>
+    </form>
+    <p>Total Amount: <span id="total"></span></p>
+</div>
+
+    <script>
+        function calculateSimpleInterest(principal, rate, time) {
+            return principal + (principal * rate * time);
+        }
+
+        function calculateCompoundInterest(principal, rate, time) {
+            return principal * Math.pow((1 + rate), time);
+        }
+
+        function calculateLoan() {
+            var principal = parseFloat(document.getElementById("amount").value);
+            var rate = parseFloat(document.getElementById("rate").value) / 100;
+            var time = parseInt(document.getElementById("years").value);
+            var interest = document.querySelector('input[name=interest]:checked').value;
+            var totalAmount;
+            if (interest == "simple") {
+                totalAmount = calculateSimpleInterest(principal, rate, time);
+            } else {
+                totalAmount = calculateCompoundInterest(principal, rate, time);
+            }
+            document.getElementById("total").innerHTML = totalAmount.toFixed(2);
+        }
+    </script>
+</body>
+</html>
